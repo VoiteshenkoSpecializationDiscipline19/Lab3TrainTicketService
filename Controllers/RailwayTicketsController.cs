@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RailwayApi.Models;
 
+// TODO: check date
+// TODO: remove token after it was used
+// TODO: how to register my service ?
+
 namespace RailwayApi.Controllers
 {
     [Route("api/RailwayTickets")]
@@ -41,12 +45,42 @@ namespace RailwayApi.Controllers
             return ticket;
         }
 
+        private static List< Token > tokens = new List< Token >();
+
+        private Token findTokenByContents(String tokenContents) {
+            foreach (Token token in tokens) {
+                if (token.token.Equals(tokenContents)) {
+                    return token;
+                }
+            }
+            return null;
+        }
+
+        [HttpGet("token")]
+        public ActionResult<IEnumerable<Token>> GetTokens()
+        {
+            return tokens;
+        } 
+
+        [HttpPost("token")]
+        public ActionResult<Token> AddToken(Token token) {
+            tokens.Add(token);
+            return token;
+        }
+
         // PUT: api/RailwayTickets/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTicket(long id, Ticket ticket)
+        [HttpPut("{id}/{token}")]
+        public async Task<IActionResult> PutTicket(long id, Ticket ticket, string token)
         {
+            Token referenceToken = findTokenByContents(token);
+            if (referenceToken == null ||
+                !referenceToken.methodName.Equals("PutTicket")) {
+                // TODO: also check date
+                return BadRequest(); // TODO: probably change to something else
+            }
+
             if (id != ticket.Id)
             {
                 return BadRequest();
@@ -76,9 +110,16 @@ namespace RailwayApi.Controllers
         // POST: api/RailwayTickets
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<Ticket>> PostTicket(Ticket ticket)
+        [HttpPost("{token}")]
+        public async Task<ActionResult<Ticket>> PostTicket(Ticket ticket, string token)
         {
+            Token referenceToken = findTokenByContents(token);
+            if (referenceToken == null ||
+                !referenceToken.methodName.Equals("PostTicket")) {
+                // TODO: also check date
+                return BadRequest();
+            }
+
             _context.tickets.Add(ticket);
             await _context.SaveChangesAsync();
 

@@ -1,0 +1,5 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "",
+    "appService.defaultWebAppToDeploy": "/subscriptions/3e46c951-3aff-4a1c-9ada-4e24e4777be2/resourceGroups/RailwayTickets/providers/Microsoft.Web/sites/RailwayTickets"
+}
