@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using RailwayApi.Models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace RailwayApi
 {
@@ -21,7 +22,7 @@ namespace RailwayApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext< RailwayContext >(opt => 
-                opt.UseInMemoryDatabase("RailwayRoutes"));
+                opt.UseMySql("server=remotemysql.com;port=3306;database=0Jcl0w4HTL;user=0Jcl0w4HTL;password=ECHXAnVD7l"));
             services.AddControllers();
         }
 

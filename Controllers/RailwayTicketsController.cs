@@ -9,6 +9,7 @@ using RailwayApi.Models;
 
 /*
 {
+	"id" : 1,
 	"from" : "Minsk",
 	"to" : "Moscow",
 	"when" : "2019-11-29T14:51:00Z",
@@ -106,7 +107,7 @@ namespace RailwayApi.Controllers
                 return false;
             }
 
-            removeToken(token);
+            //removeToken(token);
 
             return true;
         }

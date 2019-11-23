@@ -159,3 +159,11 @@
 /Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/appsettings.json
 /Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/RailwayApi.deps.json
 /Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/RailwayApi.runtimeconfig.json
+/Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/MySqlConnector.dll
+/Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/Pomelo.EntityFrameworkCore.MySql.dll
+/Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/Pomelo.JsonObject.dll
+/Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/web.config
+/Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/appsettings.Development.json
+/Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/appsettings.json
+/Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/RailwayApi.deps.json
+/Users/home/Desktop/soa/lab03/RailwayApi/bin/Release/netcoreapp3.0/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/publish/RailwayApi.runtimeconfig.json
