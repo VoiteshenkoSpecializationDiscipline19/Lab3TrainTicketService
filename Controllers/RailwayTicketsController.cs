@@ -7,9 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RailwayApi.Models;
 
-// TODO: check date
-// TODO: remove token after it was used
-// TODO: how to register my service ?
+/*
+{
+	"from" : "Minsk",
+	"to" : "Moscow",
+	"when" : "2019-11-29T14:51:00Z",
+	"price" : 60.87
+}
+
+{
+	"token" : "4rty",
+	"date_from" : "12-12-2000",
+	"date_to" : "12-12-2019"
+}
+*/
 
 namespace RailwayApi.Controllers
 {
@@ -49,11 +60,20 @@ namespace RailwayApi.Controllers
 
         private Token findTokenByContents(String tokenContents) {
             foreach (Token token in tokens) {
-                if (token.token.Equals(tokenContents)) {
+                if (token.tokenInfo.token.Equals(tokenContents)) {
                     return token;
                 }
             }
             return null;
+        }
+
+        private void removeToken(string tokenContents) {
+            for (int i = 0; i < tokens.Count; i++) {
+                if (tokens[i].tokenInfo.token.Equals(tokenContents)) {
+                    tokens.RemoveAt(i);
+                    break;
+                }
+            }
         }
 
         [HttpGet("token")]
@@ -62,10 +82,33 @@ namespace RailwayApi.Controllers
             return tokens;
         } 
 
-        [HttpPost("token")]
-        public ActionResult<Token> AddToken(Token token) {
+        [HttpPost("token/{methodName}")]
+        public ActionResult<Token> AddToken(TokenInfo tokenInfo, string methodName) {
+            Token token = new Token();
+            token.tokenInfo = tokenInfo;
+            token.methodName = methodName;
             tokens.Add(token);
             return token;
+        }
+
+        private Boolean checkToken(string token, string methodName) {
+            Token referenceToken = findTokenByContents(token);
+            if (referenceToken == null) {
+                return false;
+            }
+
+            DateTime dateFrom = DateTime.ParseExact(referenceToken.tokenInfo.date_from, "dd-MM-yyyy",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+            DateTime dateTo = DateTime.ParseExact(referenceToken.tokenInfo.date_to, "dd-MM-yyyy",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+            if (!referenceToken.methodName.Equals(methodName, StringComparison.InvariantCultureIgnoreCase) ||
+                dateFrom > DateTime.Now || dateTo < DateTime.Now) {
+                return false;
+            }
+
+            removeToken(token);
+
+            return true;
         }
 
         // PUT: api/RailwayTickets/5
@@ -74,11 +117,8 @@ namespace RailwayApi.Controllers
         [HttpPut("{id}/{token}")]
         public async Task<IActionResult> PutTicket(long id, Ticket ticket, string token)
         {
-            Token referenceToken = findTokenByContents(token);
-            if (referenceToken == null ||
-                !referenceToken.methodName.Equals("PutTicket")) {
-                // TODO: also check date
-                return BadRequest(); // TODO: probably change to something else
+            if (!checkToken(token, "PutTicket")) {
+                return StatusCode(403);
             }
 
             if (id != ticket.Id)
@@ -113,11 +153,8 @@ namespace RailwayApi.Controllers
         [HttpPost("{token}")]
         public async Task<ActionResult<Ticket>> PostTicket(Ticket ticket, string token)
         {
-            Token referenceToken = findTokenByContents(token);
-            if (referenceToken == null ||
-                !referenceToken.methodName.Equals("PostTicket")) {
-                // TODO: also check date
-                return BadRequest();
+            if (!checkToken(token, "PostTicket")) {
+                return StatusCode(403);
             }
 
             _context.tickets.Add(ticket);
