@@ -167,7 +167,7 @@ namespace RailwayApi.Controllers
 
         // DELETE: api/RailwayTickets/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Ticket>> DeleteTicket(long id)
+        public async Task<ActionResult<Ticket>> DeleteTicket(int id)
         {
             var ticket = await _context.tickets.FindAsync(id);
             if (ticket == null)
